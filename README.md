@@ -1,5 +1,8 @@
 # TA-Sysmon-deploy
-Deploy Symon through the Splunk Deployment Server
+Deploy and maintain Symon through the Splunk Deployment Server.
+
+This will enable you to have all systems running the same version of Sysmon and the same up-to-date configuration.
+No more logging in to all servers and installing it manually or having to negociate a GPO change.
 
 Note! 
 ---
