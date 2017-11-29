@@ -14,7 +14,8 @@ The included config is a hardly modified version of @swiftonsecurity's configura
 
 Usage:
 ---
-Download and install to your deployment server under '/etc/deployment-apps' and assign to your servers
+Obviously you are required to have a deployment server and installed Universal Forwarder agents connected to it.
+Download and install to your deployment server under 'etc/deployment-apps' and assign to your servers
 
 When deployed it will check for Sysmon on the system, when it is below the configured version (currently 6.20), it will uninstall that version and install 6.20 with the attached configuration
 
