@@ -11,7 +11,8 @@ All actions of the scripts are logged and indexed into the Windows index as sour
 
 Note! 
 ---
-Currently it assumes the Universal Forwarder to be installed to `C:\Program Files\SplunkUniversalForwarder` and the app to be named TA-Sysmon-deploy
+Currently it assumes the app to be named TA-Sysmon-deploy
+It will look for the SplunkForwarder service to be installed and use its install location as a variable in the script.
 
 The included config is a hardly modified version of @swiftonsecurity's configuration for demonstration purposes, you can start from this.
 
