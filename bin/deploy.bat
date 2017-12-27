@@ -1,8 +1,8 @@
 echo off
+FOR /F "delims=" %%i IN ('wmic service SplunkForwarder get Pathname ^| findstr /m service') DO set SPLUNKDPATH=%%i
+set SPLUNKPATH=%SPLUNKDPATH:~1,-28%
 >> c:\windows\sysmon.log (
-FOR /F "delims=" %%i IN ('wmic service SplunkForwarder get Pathname ^| findstr /m service') DO set SPLUNKPATH=%%i
-set SPLUNKPATH=%SPLUNKPATH:~1,-28%
-echo %DATE%-%TIME% The SplunkUniversalForwader is installed at %SPLUNKPATH%
+echo %DATE%-%TIME% The SplunkUniversalForwarder is installed at %SPLUNKPATH%
 echo %DATE%-%TIME% Checking for Sysmon
 sc query "Sysmon" | Find /c "RUNNING" 1>nul && echo %DATE%-%TIME% Sysmon found, checking version && c:\windows\sysmon.exe | Find /c "System Monitor v6.20" 1>nul && echo %DATE%-%TIME% Sysmon already up to date, exiting && exit
 sc query "Sysmon" | Find /c "RUNNING" 1>nul && c:\windows\sysmon.exe | Find /c "System Monitor v6.20" >nul || echo %DATE%-%TIME% Sysmon binary is outdated, un-installing && c:\windows\sysmon -u
