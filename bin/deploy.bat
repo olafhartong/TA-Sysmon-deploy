@@ -11,9 +11,7 @@ sc query "Sysmon" | Find /c "RUNNING" 1>nul && c:\windows\sysmon.exe | Find /c "
 
 echo %DATE%-%TIME% Sysmon not found, proceding to install
 echo %DATE%-%TIME% Copying the latest config file && copy /z /y "%SPLUNKPATH%\etc\apps\TA-Sysmon-deploy\bin\config.xml" "C:\windows\" 
-echo %DATE%-%TIME% Installing Sysmon && "%SPLUNKPATH%\etc\apps\TA-Sysmon-deploy\bin\sysmon.exe" /accepteula -i c:\windows\config.xml | Find /c "sysmon installed" 1>nul && echo %DATE%-%TIME% Install complete! 
-
-sc query "Sysmon" | Find /c "RUNNING" 1>nul && "%SPLUNKPATH%\bin\splunk.exe" restart && exit
+echo %DATE%-%TIME% Installing Sysmon && "%SPLUNKPATH%\etc\apps\TA-Sysmon-deploy\bin\sysmon.exe" /accepteula -i c:\windows\config.xml | Find /c "sysmon installed" 1>nul && echo %DATE%-%TIME% Install complete! && exit
 
 echo %DATE%-%TIME% Install failed
 )
