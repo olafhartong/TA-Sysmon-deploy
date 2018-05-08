@@ -4,7 +4,7 @@ Deploy and maintain Symon through the Splunk Deployment Server.
 This will enable you to have all systems running the same version of Sysmon and the same up-to-date configuration.
 No more logging in to all servers and installing it manually or having to negotiate a GPO change.
 
-When deployed it will check for Sysmon on the system, when it is below the configured version (currently 7.01), it will uninstall that version and install `7.01` with the attached configuration.
+When deployed it will check for Sysmon on the system, when it is below the configured version (currently 7.02), it will uninstall that version and install `7.02` with the attached configuration.
 
 Every 12 hours it will check if the config file from the deployment server is newer than the running config. If so, it will update.
 All actions of the scripts are logged and indexed into the Windows index as sourcetype InstallLog:Sysmon
