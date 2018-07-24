@@ -15,7 +15,8 @@ Currently it assumes the app to be named TA-Sysmon-deploy.
 
 It will look for the SplunkForwarder service to be installed and use its install location as a variable in the script.
 
-The included config is a hardly modified version of @swiftonsecurity's configuration for demonstration purposes, you can start from this.
+I also maintain a Sysmon repository to customise your own configuration, mapped to the MITRE ATT&CK framework https://github.com/olafhartong/sysmon-modular
+The included config is a complete generated configuration from this repository, you can start from this. Keep a lookout for the git repository, as it is frequently updated.
 
 Usage:
 ---
