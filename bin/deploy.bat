@@ -1,17 +1,39 @@
-echo off
-FOR /F "delims=" %%i IN ('wmic service SplunkForwarder get Pathname ^| findstr /m service') DO set SPLUNKDPATH=%%i
-set SPLUNKPATH=%SPLUNKDPATH:~1,-28%
+ECHO OFF
 
->> c:\windows\sysmon.log (
-echo %DATE%-%TIME% The SplunkUniversalForwarder is installed at %SPLUNKPATH%
-echo %DATE%-%TIME% Checking for Sysmon
-sc query "Sysmon" | Find /c "RUNNING" 2>nul && echo %DATE%-%TIME% Sysmon found, checking version && c:\windows\sysmon.exe | Find /c "System Monitor v8.00" 1>nul && echo %DATE%-%TIME% Sysmon already up to date, exiting && exit
+FOR /F "delims=" %%i IN ('wmic service SplunkForwarder get Pathname ^| FINDSTR /m service') DO SET SPLUNKDPATH=%%i
+SET SPLUNKPATH=%SPLUNKDPATH:~1,-28%
 
-sc query "Sysmon" | Find /c "RUNNING" 1>nul && c:\windows\sysmon.exe | Find /c "System Monitor v8.00" >nul || echo %DATE%-%TIME% Sysmon binary is outdated, un-installing && c:\windows\sysmon -u
+>> %WINDIR%\sysmon.log (
+ECHO %DATE%-%TIME% The SplunkUniversalForwarder is installed at %SPLUNKPATH%
+ECHO %DATE%-%TIME% Checking for Sysmon
 
-echo %DATE%-%TIME% Sysmon not found, proceding to install
-echo %DATE%-%TIME% Copying the latest config file && copy /z /y "%SPLUNKPATH%\etc\apps\TA-Sysmon-deploy\bin\config.xml" "C:\windows\"
-echo %DATE%-%TIME% Installing Sysmon && "%SPLUNKPATH%\etc\apps\TA-Sysmon-deploy\bin\sysmon.exe" /accepteula -i c:\windows\config.xml | Find /c "Sysmon installed" 1>nul && echo %DATE%-%TIME% Install complete! && exit
+FOR /F "delims=" %%c IN ('sc query "Sysmon" ^| FIND /c "RUNNING"') DO (
+    SET CHECK_SYSMON_RUNNIG=%%c
+)
 
-echo %DATE%-%TIME% Install failed
+FOR /F "delims=" %%b IN ('c:\windows\sysmon.exe ^| FIND /c "System Monitor v11.10"') DO (
+    SET CHECK_SYSMON_VERSION=%%b
+)
+
+if "%CHECK_SYSMON_RUNNIG%" == "1" (
+    ECHO %DATE%-%TIME% Sysmon found, checking version
+    IF "%CHECK_SYSMON_VERSION%" == "1" (
+        ECHO %DATE%-%TIME% Sysmon already up to date, exiting
+        EXIT
+    ) ELSE (
+        ECHO %DATE%-%TIME% Sysmon binary is outdated, un-installing
+        IF EXIST %WINDIR%\sysmon.exe (
+            %WINDIR%\sysmon.exe -u
+        )
+    )
+) ELSE (
+    ECHO %DATE%-%TIME% Sysmon not found, proceding to install
+    ECHO %DATE%-%TIME% Copying the latest config file
+    COPY /z /y "%SPLUNKPATH%\etc\apps\TA-Sysmon-deploy\bin\config.xml" "C:\windows\"
+    ECHO %DATE%-%TIME% Installing Sysmon
+    "%SPLUNKPATH%\etc\apps\TA-Sysmon-deploy\bin\sysmon.exe" /accepteula -i c:\windows\config.xml | Find /c "Sysmon installed" 1>NUL
+    ECHO %DATE%-%TIME% Install complete!
+    EXIT
+)
+ECHO %DATE%-%TIME% Install failed
 )
